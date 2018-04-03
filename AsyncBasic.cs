@@ -25,6 +25,8 @@ namespace AsyncBasic
             Console.WriteLine($"Found the prime number: {foundPrime}");
 
             await printTask;
+
+            Console.WriteLine($"All done!");
         }
 
         public static async Task RunTest()
@@ -53,6 +55,8 @@ namespace AsyncBasic
             List<Task> tasks = new List<Task>();
             for( int i = 0; i < threads; i++ )
             {
+                if( i > 0 && threads % (i + 1) == 0 )    // Do not execute a thread if it's starting position and increment...
+                    continue;                            // ...would never find a single prime number at all.
                 tasks.Add(Task.Run(() => PrintPrimeNumbersAndGetNextAsync(max, true, threads, i)));
             }
 
